@@ -1,11 +1,10 @@
 
 
 module "rg" {
-
     source = "../Modul/Resource-group"
     resource-group=var.resource-group
-  
 }
+
 
 module "AKS" {
     depends_on = [ module.rg ]

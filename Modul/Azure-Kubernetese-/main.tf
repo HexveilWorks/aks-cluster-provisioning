@@ -1,8 +1,6 @@
 
 
 resource "azurerm_kubernetes_cluster" "Aks" {
-
-
   for_each            = var.aks
   name                = each.value.aks_name
   location            = each.value.location
@@ -26,19 +24,47 @@ resource "azurerm_kubernetes_cluster" "Aks" {
 
 
 
+# resource "azurerm_kubernetes_cluster_node_pool" "spot" {
+#   depends_on = [ azurerm_kubernetes_cluster.Aks ]
+#   for_each = var.aks
+
+#   kubernetes_cluster_id = azurerm_kubernetes_cluster.Aks[each.key].id
+
+#   name       = "spot"
+#   vm_size    = "Standard_D4s_v3"
+#   node_count = 1
+
+#   priority        = "Spot"
+#   eviction_policy = "Delete"
+
+#   mode = "User"
+# }
+
 resource "azurerm_kubernetes_cluster_node_pool" "spot" {
-  depends_on = [ azurerm_kubernetes_cluster.Aks ]
   for_each = var.aks
 
   kubernetes_cluster_id = azurerm_kubernetes_cluster.Aks[each.key].id
 
-  name       = "spot"
-  vm_size    = "Standard_D4s_v3"
-  node_count = 1
+  name    = "spot"
+  vm_size =  "Standard_B2s_v2"
+
+  mode    = "User"
+  os_type = "Linux"
 
   priority        = "Spot"
   eviction_policy = "Delete"
+  spot_max_price  = -1
 
-  mode = "User"
+auto_scaling_enabled = false
+node_count = 1
+
+  min_count = null
+  max_count = null
+# min_count  = 1
+# max_count  = 3
+
+
+  tags = {
+    Environment = "Dev"
+  }
 }
-
