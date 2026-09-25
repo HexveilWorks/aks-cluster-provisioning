@@ -5,7 +5,7 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions: 
    
       contents: read
@@ -26,15 +26,15 @@ jobs:
 
       - name: terraform init
         run: terraform init 
-        working-directory: env/dev/
+        working-directory: dev/
 
       - name: terraform plan
         run: terraform plan 
-        working-directory: env/dev/
+        working-directory: dev/
 
       - name: terraform apply
         run: terraform apply
-        working-directory: env/dev/
+        working-directory: dev/
     
 
 
