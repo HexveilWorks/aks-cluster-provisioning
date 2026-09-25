@@ -7,10 +7,16 @@ terraform {
         version = "4.81.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "aks-rg"
+    storage_account_name = "sthnkdjhfrom"
+    container_name       = "testing-container"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
     features {}
-    subscription_id = "23bda82c-1340-4fc5-aa71-ad7001c6e720"
+    subscription_id = "34382dad-4d83-4e06-9eeb-c20a9624d946"
   
 }
