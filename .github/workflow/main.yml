@@ -1,0 +1,45 @@
+name: CI-Workflow
+
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: self-hosted
+    permissions: 
+   
+      contents: read
+      id-token: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6.0.2
+
+      - name:  Azure Login
+        uses: Azure/login@v3
+        with:
+          creds:
+          client-id: "52d4be30-bdd1-4d5c-814b-b0782e625fb2"
+          tenant-id: "7c23c5b4-ee12-4a85-a703-3cdda6279e4b"
+          subscription-id: "34382dad-4d83-4e06-9eeb-c20a9624d946"
+
+
+      - name: terraform init
+        run: terraform init 
+        working-directory: env/dev/
+
+      - name: terraform plan
+        run: terraform plan 
+        working-directory: env/dev/
+
+      - name: terraform apply
+        run: terraform apply
+        working-directory: env/dev/
+    
+
+
+
+
+
+
+    
